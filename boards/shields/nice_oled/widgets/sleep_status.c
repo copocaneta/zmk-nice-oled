@@ -67,7 +67,13 @@ ZMK_SUBSCRIPTION(widget_sleep_status, zmk_activity_state_changed);
 int zmk_widget_sleep_status_init(struct zmk_widget_sleep_status *widget, lv_obj_t *parent) {
     sys_slist_append(&widgets, &widget->node);
     widget->obj = lv_obj_create(parent);
+#if IS_ENABLED(CONFIG_NICE_EPAPER_ON)
     lv_obj_set_size(widget->obj, 160, 68);
+#else
+    lv_obj_set_size(widget->obj, 128, 32);
+#endif
+    lv_obj_set_style_pad_all(widget->obj, 0, 0);
+    lv_obj_set_style_border_width(widget->obj, 0, 0);
     widget->art = lv_img_create(widget->obj);
 #if IS_ENABLED(CONFIG_NICE_EPAPER_ON)
     lv_img_set_src(widget->art, &vim_68x160);
